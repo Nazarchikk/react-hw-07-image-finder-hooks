@@ -1,0 +1,17 @@
+.Loader{
+    display: flex;
+    justify-content: center;
+}
+.error{
+    display: flex;
+    justify-content: center;
+}
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.loadMore{
+    display: flex;
+    justify-content: center;
+}

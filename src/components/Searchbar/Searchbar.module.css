@@ -1,0 +1,21 @@
+.form{
+    height: 75px;
+    background-color: rgb(72, 72, 197);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button{
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border:none
+}
+.input{
+    width: 200px;
+    height: 38px;
+    background-color: white;
+    border:none;
+    resize: none; 
+    outline:none;
+}
