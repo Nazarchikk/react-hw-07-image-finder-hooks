@@ -11,53 +11,104 @@ export default function ImageGallery ({imgName}) {
   const [status, setStatus] = useState('idle')
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
+  // const fetchImages = ()=> {
+  //     fetch(
+  //         `https://pixabay.com/api/?q=${imgName}&page=${page}&key=35758610-c07349af20f7ea2483391d0b9&image_type=photo&orientation=horizontal&per_page=12`
+  //       )
+  //         .then(res => {
+  //           if (res.ok) {
+  //             return res.json();
+  //           }
+  //         })
+  //         .then(images => {
+  //           if (images.hits.length < 1) {
+  //             return Promise.reject(
+  //               new Error(`Sorry, but there are currently no images for your request
+  //                         ${imgName}`)
+  //             );
+  //           }
+  //           if(page > 1){
+  //               setImages((prevImages) => [...prevImages, ...images.hits])
+  //               setStatus('resolved')
+  //               downScroll()
+                
+  //           }
+  //           else {
+  //                 setImages(images.hits)
+  //                 setStatus('resolved')
+  //                 setTotal(images.total)
+  //           }
+  //         })
+  //         .catch(error => {setError(error);setStatus('rejected')})
+  // }
   useEffect(() => {
     if (imgName) {
       resetState();
       setStatus('pending');
-      fetchImages(imgName);
+      fetch(
+        `https://pixabay.com/api/?q=${imgName}&page=${page}&key=35758610-c07349af20f7ea2483391d0b9&image_type=photo&orientation=horizontal&per_page=12`
+      )
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+        })
+        .then(images => {
+          if (images.hits.length < 1) {
+            return Promise.reject(
+              new Error(`Sorry, but there are currently no images for your request
+                        ${imgName}`)
+            );
+          }
+          if(page > 1){
+              setImages((prevImages) => [...prevImages, ...images.hits])
+              setStatus('resolved')
+              downScroll()
+              
+          }
+          else {
+                setImages(images.hits)
+                setStatus('resolved')
+                setTotal(images.total)
+          }
+        })
+        .catch(error => {setError(error);setStatus('rejected')})
     }
-  }, [imgName]);
+  }, [imgName, page]);
 
   useEffect(() => {
     if (page !== 1) {
       setStatus('pending');
-      fetchImages(imgName);
-    }
-  }, [page]);
-
-  const fetchImages = () => {
-    setTimeout(() => {
       fetch(
-          `https://pixabay.com/api/?q=${imgName}&page=${page}&key=35758610-c07349af20f7ea2483391d0b9&image_type=photo&orientation=horizontal&per_page=12`
-        )
-          .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          })
-          .then(images => {
-            if (images.hits.length < 1) {
-              return Promise.reject(
-                new Error(`Sorry, but there are currently no images for your request
-                          ${imgName}`)
-              );
-            }
-            if(page > 1){
-                setImages((prevImages) => [...prevImages, ...images.hits])
+        `https://pixabay.com/api/?q=${imgName}&page=${page}&key=35758610-c07349af20f7ea2483391d0b9&image_type=photo&orientation=horizontal&per_page=12`
+      )
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+        })
+        .then(images => {
+          if (images.hits.length < 1) {
+            return Promise.reject(
+              new Error(`Sorry, but there are currently no images for your request
+                        ${imgName}`)
+            );
+          }
+          if(page > 1){
+              setImages((prevImages) => [...prevImages, ...images.hits])
+              setStatus('resolved')
+              downScroll()
+              
+          }
+          else {
+                setImages(images.hits)
                 setStatus('resolved')
-                downScroll()
-                
-            }
-            else {
-                  setImages(images.hits)
-                  setStatus('resolved')
-                  setTotal(images.total)
-            }
-          })
-          .catch(error => {setError(error);setStatus('rejected')})
-      },1000)
-  }
+                setTotal(images.total)
+          }
+        })
+        .catch(error => {setError(error);setStatus('rejected')})
+    }
+  }, [imgName, page]);
   const resetState = () => {
     setPage(1)
     setImages([])
