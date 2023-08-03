@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-hw-07-image-finder-hooks/static/css/main.8c6ca7cd.css",
+    "main.js": "/react-hw-07-image-finder-hooks/static/js/main.7ad907f0.js",
+    "index.html": "/react-hw-07-image-finder-hooks/index.html",
+    "main.8c6ca7cd.css.map": "/react-hw-07-image-finder-hooks/static/css/main.8c6ca7cd.css.map",
+    "main.7ad907f0.js.map": "/react-hw-07-image-finder-hooks/static/js/main.7ad907f0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8c6ca7cd.css",
+    "static/js/main.7ad907f0.js"
+  ]
+}
