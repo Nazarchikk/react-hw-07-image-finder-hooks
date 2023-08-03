@@ -21,7 +21,7 @@ export default function Modal({ imgBigSrc, imgTag, onClose }) {
     if (e.currentTarget === e.target) {
       onClose();
     }
-  };
+  }; 
 
   return createPortal(
     <div className={css.overlay} onClick={handleBackdropClick}>
