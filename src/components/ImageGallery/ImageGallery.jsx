@@ -74,7 +74,7 @@ export default function ImageGallery ({imgName}) {
         })
         .catch(error => {setError(error);setStatus('rejected')})
     }
-  }, [imgName, page]);
+  }, [imgName]);
 
   useEffect(() => {
     if (page !== 1) {
@@ -108,7 +108,7 @@ export default function ImageGallery ({imgName}) {
         })
         .catch(error => {setError(error);setStatus('rejected')})
     }
-  }, [imgName, page]);
+  }, [page]);
   const resetState = () => {
     setPage(1)
     setImages([])
