@@ -9,58 +9,32 @@ export default function ImageGallery ({imgName}) {
   const [images, setImages] = useState([])
   const [error, setError] = useState(null)
   const [status, setStatus] = useState('idle')
-  const [page, setPage] = useState(1)
-  const [total, setTotal] = useState(0)
-  const fetchImages = ()=> {
+  const [perPage, setPerPage] = useState(0)
+  const fetchImages = imgNames => {
+      setStatus('pending');
+      setPerPage(12)
       fetch(
-          `https://pixabay.com/api/?q=${imgName}&page=${page}&key=35758610-c07349af20f7ea2483391d0b9&image_type=photo&orientation=horizontal&per_page=12`
+          `https://pixabay.com/api/?q=${imgNames}&key=35758610-c07349af20f7ea2483391d0b9&image_type=photo&orientation=horizontal&per_page=200`
         )
-          .then(res => {
-            if (res.ok) {
-              return res.json();
+          .then(response => {
+            if (response.ok) {
+              return response.json();
             }
+            return Promise.reject(new Error('Image not found'));
           })
-          .then(images => {
-            if (images.hits.length < 1) {
-              return Promise.reject(
-                new Error(`Sorry, but there are currently no images for your request
-                          ${imgName}`)
-              );
-            }
-            if(page > 1){
-                setImages((prevImages) => [...prevImages, ...images.hits])
-                setStatus('resolved')
-                downScroll()
-            }
-            else {
-                  setImages(images.hits)
-                  setStatus('resolved')
-                  setTotal(images.total)
-            }
+          .then(data => {
+            setImages([...data.hits]);
+            setStatus('resolved');
+            setError(false);
           })
           .catch(error => {setError(error);setStatus('rejected')})
   }
 
   useEffect(() => {
     if (imgName) {
-      resetState();
-      setStatus('pending');
-      fetchImages()
+      fetchImages(imgName)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imgName]);
-
-  useEffect(() => {
-    if (page > 1) {
-      setStatus('pending');
-      fetchImages()
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-  const resetState = () => {
-    setPage(1)
-    setImages([])
-  }  
   const downScroll = () => {
     setTimeout(() => {
       window.scrollTo({
@@ -71,10 +45,9 @@ export default function ImageGallery ({imgName}) {
     }, 0);
   }
   const addPage = () => {
-    setPage((prevPage) => prevPage + 1);
+    setPerPage(perPage => perPage + 12)
+    downScroll()
   };
-
-
     if (status === 'pending') {
       return <div className={css.Loader}><Loader></Loader></div>;
     }
@@ -85,7 +58,9 @@ export default function ImageGallery ({imgName}) {
         return (
             <>
             <ul className={css.gallery}>
-                {images.map(image => (
+                {images
+                .slice(0, perPage)
+                .map(image => (
                 <ImageGalleryItem
                     key={image.id} 
                     imagesLink={image.webformatURL} 
@@ -94,7 +69,7 @@ export default function ImageGallery ({imgName}) {
                 ></ImageGalleryItem>
                 ))}
             </ul>
-            {total > images.length && (
+            {images.length > 12&& (
                 <div className={css.loadMore}>
                   <Button onClick={addPage}></Button>
                 </div>
