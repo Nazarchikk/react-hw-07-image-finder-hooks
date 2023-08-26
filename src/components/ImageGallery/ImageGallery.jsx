@@ -31,7 +31,6 @@ export default function ImageGallery ({imgName}) {
                 setImages((prevImages) => [...prevImages, ...images.hits])
                 setStatus('resolved')
                 downScroll()
-                
             }
             else {
                   setImages(images.hits)
@@ -43,8 +42,8 @@ export default function ImageGallery ({imgName}) {
   }
 
   useEffect(() => {
-    resetState();
     if (imgName) {
+      resetState();
       setStatus('pending');
       fetchImages()
     }
