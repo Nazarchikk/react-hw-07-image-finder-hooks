@@ -58,16 +58,20 @@ export default function ImageGallery ({imgName}) {
         return (
             <>
             <ul className={css.gallery}>
-                {images
-                .slice(0, perPage)
-                .map(image => (
-                <ImageGalleryItem
-                    key={image.id} 
-                    imagesLink={image.webformatURL} 
-                    imagesBigLink={image.largeImageURL} 
-                    imageTag={image.tags} 
-                ></ImageGalleryItem>
-                ))}
+            {images.length > 0 ? (
+                images
+                  .slice(0, perPage)
+                  .map(image => (
+                  <ImageGalleryItem
+                      key={image.id} 
+                      imagesLink={image.webformatURL} 
+                      imagesBigLink={image.largeImageURL} 
+                      imageTag={image.tags} 
+                  ></ImageGalleryItem>
+                  ))
+              ):(
+                <h1>Sorry, we do not have the image for your request</h1>
+              )}
             </ul>
             {images.length > 12&& (
                 <div className={css.loadMore}>
